@@ -8,8 +8,8 @@ ARG VERSION
 ADD install-dependencies.sh install-dependencies.sh
 RUN chmod 755 install-dependencies.sh && /bin/sh install-dependencies.sh
 
-RUN adduser -D mermaidcli
-USER mermaidcli
+#RUN adduser -D mermaidcli
+#USER mermaidcli
 WORKDIR /home/mermaidcli
 RUN yarn add @mermaid-js/mermaid-cli@$VERSION
 
