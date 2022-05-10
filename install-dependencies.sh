@@ -5,4 +5,5 @@
 apk add chromium font-noto-cjk font-noto-emoji \
     terminus-font ttf-dejavu ttf-freefont ttf-font-awesome \
     ttf-inconsolata ttf-linux-libertine \
+    bash vim make \
     && fc-cache -f
