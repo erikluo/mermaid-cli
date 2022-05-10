@@ -14,5 +14,7 @@ WORKDIR /home/mermaidcli
 RUN yarn add @mermaid-js/mermaid-cli@$VERSION
 
 ADD puppeteer-config.json  /puppeteer-config.json
-ENTRYPOINT ["./node_modules/.bin/mmdc", "-p", "/puppeteer-config.json"]
-CMD [ "--help" ]
+
+RUN wget  "https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-linux-amd64.tar.gz" -O /tmp/pandoc.tar.gz && tar -xvf /tmp/pandoc.tar.gz 
+#ENTRYPOINT ["./node_modules/.bin/mmdc", "-p", "/puppeteer-config.json"]
+#CMD [ "--help" ]
