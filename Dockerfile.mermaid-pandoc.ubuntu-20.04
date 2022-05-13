@@ -1,0 +1,55 @@
+FROM  ubuntu:20.04
+MAINTAINER erikluo
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+ENV PATH=/usr/local/node-v16.15.0-linux-x64/bin/:$PATH
+
+# apt-get tencent source
+RUN echo "deb http://mirrors.tencent.com/ubuntu/ focal main restricted universe multiverse \n" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-security main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-updates main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-backports main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-security main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-updates main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-backports main restricted universe multiverse\n" >> /etc/apt/sources.list && \
+    rm -rf /etc/apt/sources.list.d/*
+
+RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-packages --no-install-recommends \
+        build-essential  ca-certificates \
+        git curl vim wget \
+        librsvg2-dev  librsvg2-bin texlive texlive-xetex \
+        gnupg  chromium-browser && \
+        rm  -rf /var/lib/apt/lists/*
+
+#RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg |  apt-key add - 
+#RUN apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com
+
+#RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+#RUN curl -sS https://deb.nodesource.com/setup_12.x|bash -
+#RUN apt-get update && apt-get install -y yarn 
+
+#RUN npm install -g yarn
+
+ENV CHROME_BIN="/usr/bin/chromium-browser" \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+
+ARG VERSION
+
+#RUN adduser -D mermaidcli
+#USER mermaidcli
+WORKDIR /home/mermaidcli
+ADD node.tar.xz  /usr/local
+
+#RUN yarn add @mermaid-js/mermaid-cli@$VERSION
+RUN npm install @mermaid-js/mermaid-cli@$VERSION
+
+ADD puppeteer-config.json  /puppeteer-config.json
+ADD pandoc.tar.gz  /home/mermaidcli
+
+
+#ENTRYPOINT ["./node_modules/.bin/mmdc", "-p", "/puppeteer-config.json"]
+#CMD [ "--help" ]

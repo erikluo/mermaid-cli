@@ -1,0 +1,25 @@
+FROM  pandoc/core:2.18-ubuntu
+MAINTAINER erikluo
+
+# apt-get tencent source
+RUN echo "deb http://mirrors.tencent.com/ubuntu/ focal main restricted universe multiverse \n" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-security main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-updates main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.tencent.com/ubuntu/ focal-backports main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-security main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-updates main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-proposed main restricted universe multiverse \n" >> /etc/apt/sources.list && \
+    echo "deb-src http://mirrors.tencent.com/ubuntu/ focal-backports main restricted universe multiverse\n" >> /etc/apt/sources.list && \
+    rm -rf /etc/apt/sources.list.d/*
+
+RUN apt-get update && apt-get install -y  \
+        build-essential  ca-certificates \
+        git curl vim wget \
+        texlive texlive-xetex && \
+        rm  -rf /var/lib/apt/lists/*
+
+
+ENTRYPOINT []
+#CMD [ "--help" ]
